@@ -10,7 +10,7 @@ import { useGLTF, Environment, Float, Center } from "@react-three/drei";
 import * as THREE from "three";
 
 function Emblem3D() {
-  const { scene } = useGLTF("https://ik.imagekit.io/shantanushinde99/images/images/lamborghini_emblem.glb");
+  const { scene } = useGLTF("https://ik.imagekit.io/shantanushinde99/Images/lamborghini_emblem.glb");
   const groupRef = useRef<THREE.Group>(null);
 
   // Simple rotation effect in the preloader
@@ -36,7 +36,7 @@ function Emblem3D() {
 }
 // Preload the model only on the client side to avoid Next.js SSR crashes
 if (typeof window !== "undefined") {
-  useGLTF.preload("https://ik.imagekit.io/shantanushinde99/images/images/lamborghini_emblem.glb");
+  useGLTF.preload("https://ik.imagekit.io/shantanushinde99/Images/lamborghini_emblem.glb");
 }
 
 const PREMIUM_EASE = [0.16, 1, 0.3, 1] as const;

@@ -103,7 +103,7 @@ export default function Navbar() {
         {/* Logo */}
         <div className="flex items-center gap-3">
           <img
-            src="https://ik.imagekit.io/shantanushinde99/images/images/Lambo%20Logo-Photoroom.png"
+            src="https://ik.imagekit.io/shantanushinde99/Images/Lambo%20Logo-Photoroom.png"
             alt="Lamborghini"
             className="w-7 h-7 object-contain"
           />

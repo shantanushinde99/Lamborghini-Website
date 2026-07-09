@@ -49,7 +49,7 @@ export default function Home() {
           {/* Large Lambo Logo (Top Right below Navbar) */}
           <div className="absolute top-8 right-8 md:right-12 z-40 pointer-events-none">
             <img
-              src="https://ik.imagekit.io/shantanushinde99/images/images/Lambo%20Logo-Photoroom.png"
+              src="https://ik.imagekit.io/shantanushinde99/Images/Lambo%20Logo-Photoroom.png"
               alt="Lamborghini Logo"
               className="w-48 h-48 object-contain opacity-100"
             />

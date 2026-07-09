@@ -133,7 +133,7 @@ export default function RevueltoExperience({
   return (
     <div className="absolute inset-0 z-10 pointer-events-none">
       {/* Hidden Exhaust Audio Element */}
-      <audio ref={exhaustAudioRef} src="https://ik.imagekit.io/shantanushinde99/images/images/Exhaust.mp3" preload="auto" />
+      <audio ref={exhaustAudioRef} src="https://ik.imagekit.io/shantanushinde99/Images/Exhaust.mp3" preload="auto" />
 
       {/* Left side subtle background gradient for text contrast */}
       <div className="absolute inset-y-0 left-0 w-1/2 bg-gradient-to-r from-[#FAFAFA]/90 via-[#FAFAFA]/40 to-transparent pointer-events-none -z-10" />
