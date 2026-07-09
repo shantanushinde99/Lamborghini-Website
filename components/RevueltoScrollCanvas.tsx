@@ -119,19 +119,22 @@ export default function RevueltoScrollCanvas({
     let active = true;
 
     async function runPreload() {
-      // Load all frames of all phases before signaling ready.
-      // Loading sequentially by phase to avoid crushing the browser's network queue
-      for (let p = 0; p < PHASES.length; p++) {
-        await loadFrameRange(PHASES[p].folder, 0, FRAME_COUNT - 1);
-        if (!active) return;
-      }
+      // 1. Load ONLY the first phase (hero_exterior) to unblock the preloader quickly
+      await loadFrameRange(PHASES[0].folder, 0, FRAME_COUNT - 1);
+      if (!active) return;
       
       // Draw first frame immediately
       drawFrame(PHASES[0].folder, 0);
       loadedRef.current = true;
       
-      // Signal to the preloader that ALL assets (2,160 frames) are fully loaded
+      // Signal to the preloader that the primary assets are loaded and the site can open!
       onReady?.();
+
+      // 2. Silently load the remaining 8 phases in the background while the user reads the first section
+      for (let p = 1; p < PHASES.length; p++) {
+        await loadFrameRange(PHASES[p].folder, 0, FRAME_COUNT - 1);
+        if (!active) return;
+      }
     }
 
     runPreload();
