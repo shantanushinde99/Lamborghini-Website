@@ -48,12 +48,12 @@ export default function RevueltoScrollCanvas({
     },[]
   );
 
-  const loadFrameRange = useCallback((folder: string, start: number, end: number, stride: number = 1): Promise<void> => {
+  const loadFrameRange = useCallback((folder: string, start: number, end: number): Promise<void> => {
     const images = allImagesRef.current.get(folder);
     if (!images) return Promise.resolve();
 
     const promises = [];
-    for (let i = start; i <= end; i += stride) {
+    for (let i = start; i <= end; i++) {
       const img = images[i];
       if (!img.src) {
         promises.push(
@@ -79,36 +79,6 @@ export default function RevueltoScrollCanvas({
     if (key === lastFrameKeyRef.current) return; // Perf guard
     lastFrameKeyRef.current = key;
 
-    const images = allImagesRef.current.get(folder);
-    if (!images) return;
-
-    let targetImg = images[frameIndex];
-
-    // CLOSEST FRAME FALLBACK: If current frame isn't loaded, find the closest loaded frame
-    if (!targetImg || !targetImg.complete || targetImg.naturalWidth === 0) {
-      let fallback = null;
-      // Search backwards first (most recent frame seen)
-      for (let i = frameIndex - 1; i >= 0; i--) {
-        if (images[i] && images[i].complete && images[i].naturalWidth !== 0) {
-          fallback = images[i];
-          break;
-        }
-      }
-      // If none found backwards, search forwards
-      if (!fallback) {
-        for (let i = frameIndex + 1; i < FRAME_COUNT; i++) {
-           if (images[i] && images[i].complete && images[i].naturalWidth !== 0) {
-             fallback = images[i];
-             break;
-           }
-        }
-      }
-      
-      // If absolutely NO frames are loaded for this folder, don't wipe the canvas, just return
-      if (!fallback) return; 
-      targetImg = fallback;
-    }
-
     const dpr = window.devicePixelRatio || 1;
     const cssWidth = canvas.width / dpr;
     const cssHeight = canvas.height / dpr;
@@ -117,8 +87,14 @@ export default function RevueltoScrollCanvas({
     ctx.fillStyle = "#FFFFFF";
     ctx.fillRect(0, 0, cssWidth, cssHeight);
 
+    const images = allImagesRef.current.get(folder);
+    if (!images) return;
+
+    const img = images[frameIndex];
+    if (!img || !img.complete || img.naturalWidth === 0) return;
+
     // Cover-fit the image
-    const imgAspect = targetImg.naturalWidth / targetImg.naturalHeight;
+    const imgAspect = img.naturalWidth / img.naturalHeight;
     const canvasAspect = cssWidth / cssHeight;
 
     let drawWidth: number, drawHeight: number, drawX: number, drawY: number;
@@ -135,7 +111,7 @@ export default function RevueltoScrollCanvas({
       drawY = (cssHeight - drawHeight) / 2;
     }
 
-    ctx.drawImage(targetImg, drawX, drawY, drawWidth, drawHeight);
+    ctx.drawImage(img, drawX, drawY, drawWidth, drawHeight);
   }, []);
 
   // Progressive preloading of image assets
@@ -152,15 +128,13 @@ export default function RevueltoScrollCanvas({
       loadedRef.current = true;
       onReady?.();
 
-      // 2. STRIDED PRELOAD: Load every 10th frame of all phases to create a low-fps fallback across the entire experience
-      for (let p = 0; p < PHASES.length; p++) {
-        await loadFrameRange(PHASES[p].folder, 0, FRAME_COUNT - 1, 10);
-        if (!active) return;
-      }
+      // 2. Load the rest of the first phase
+      await loadFrameRange(PHASES[0].folder, 30, FRAME_COUNT - 1);
+      if (!active) return;
 
-      // 3. Load all remaining frames sequentially to upgrade to 60fps
-      for (let p = 0; p < PHASES.length; p++) {
-        await loadFrameRange(PHASES[p].folder, 0, FRAME_COUNT - 1, 1);
+      // 3. Load all other phases sequentially in the background
+      for (let p = 1; p < PHASES.length; p++) {
+        await loadFrameRange(PHASES[p].folder, 0, FRAME_COUNT - 1);
         if (!active) return;
       }
     }
