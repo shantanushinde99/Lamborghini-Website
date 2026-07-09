@@ -1,18 +1,18 @@
 "use client";
 
-import { useRef, Suspense, lazy, useState } from "react";
+import { useRef, useState } from "react";
 import { useScroll, useTransform, motion } from "framer-motion";
 
 import Preloader from "@/components/Preloader";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import SuspenseLoader from "@/components/SuspenseLoader";
+
 
 import RevueltoScrollCanvas from "@/components/RevueltoScrollCanvas";
 import RevueltoExperience from "@/components/RevueltoExperience";
 
-const SpecsGrid = lazy(() => import("@/components/SpecsGrid"));
-const VelocityDashboard = lazy(() => import("@/components/VelocityDashboard"));
+import SpecsGrid from "@/components/SpecsGrid";
+import VelocityDashboard from "@/components/VelocityDashboard";
 
 export default function Home() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -57,9 +57,7 @@ export default function Home() {
 
           <RevueltoExperience scrollYProgress={scrollYProgress} />
 
-          <Suspense fallback={<SuspenseLoader />}>
-            <VelocityDashboard scrollYProgress={scrollYProgress} />
-          </Suspense>
+          <VelocityDashboard scrollYProgress={scrollYProgress} />
 
           <div className="absolute inset-0 scanlines pointer-events-none z-[5]" />
 
@@ -74,9 +72,7 @@ export default function Home() {
         </div>
       </div>
 
-      <Suspense fallback={<SuspenseLoader />}>
-        <SpecsGrid />
-      </Suspense>
+      <SpecsGrid />
       <Footer />
     </main>
   );

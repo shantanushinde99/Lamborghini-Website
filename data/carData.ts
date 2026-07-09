@@ -77,7 +77,7 @@ export const revueltoData = {
     {
       id: "exhaust",
       scrollRange: [0.66, 0.77] as [number, number],
-      folder: "frames_exhaust",
+      folder: "exhaust",
       label: "07 / EXHAUST",
       title: "THE V12 SOUND",
       subtitle: "MECHANICAL SYMPHONY",
@@ -99,7 +99,7 @@ export const revueltoData = {
     {
       id: "finale",
       scrollRange: [0.88, 1.0] as [number, number],
-      folder: "final_hero",
+      folder: "final_hero_section",
       label: "09 / FINALE",
       title: "WITHOUT COMPROMISE",
       subtitle: "ENGINEERED",

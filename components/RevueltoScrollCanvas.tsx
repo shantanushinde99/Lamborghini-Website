@@ -44,7 +44,7 @@ export default function RevueltoScrollCanvas({
   const getFramePath = useCallback(
     (folder: string, index: number) => {
       const padded = String(index).padStart(6, "0");
-      return `https://ik.imagekit.io/shantanushinde99/images/images/${folder}/frame_${padded}.webp?updatedAt=1783524769050`;
+      return `https://ik.imagekit.io/shantanushinde99/Images/${folder}/frame_${padded}.webp?v=3`;
     },[]
   );
 
@@ -119,24 +119,19 @@ export default function RevueltoScrollCanvas({
     let active = true;
 
     async function runPreload() {
-      // 1. Load critical first 30 frames of the first phase to get visual feedback ASAP
-      await loadFrameRange(PHASES[0].folder, 0, 29);
-      if (!active) return;
+      // Load all frames of all phases before signaling ready.
+      // Loading sequentially by phase to avoid crushing the browser's network queue
+      for (let p = 0; p < PHASES.length; p++) {
+        await loadFrameRange(PHASES[p].folder, 0, FRAME_COUNT - 1);
+        if (!active) return;
+      }
       
       // Draw first frame immediately
       drawFrame(PHASES[0].folder, 0);
       loadedRef.current = true;
+      
+      // Signal to the preloader that ALL assets (2,160 frames) are fully loaded
       onReady?.();
-
-      // 2. Load the rest of the first phase
-      await loadFrameRange(PHASES[0].folder, 30, FRAME_COUNT - 1);
-      if (!active) return;
-
-      // 3. Load all other phases sequentially in the background
-      for (let p = 1; p < PHASES.length; p++) {
-        await loadFrameRange(PHASES[p].folder, 0, FRAME_COUNT - 1);
-        if (!active) return;
-      }
     }
 
     runPreload();
