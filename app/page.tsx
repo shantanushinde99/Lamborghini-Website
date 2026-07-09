@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, Suspense, lazy } from "react";
+import { useRef, Suspense, lazy, useState } from "react";
 import { useScroll, useTransform, motion } from "framer-motion";
 
 import Preloader from "@/components/Preloader";
@@ -8,13 +8,15 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SuspenseLoader from "@/components/SuspenseLoader";
 
-const RevueltoScrollCanvas = lazy(() => import("@/components/RevueltoScrollCanvas"));
-const RevueltoExperience = lazy(() => import("@/components/RevueltoExperience"));
+import RevueltoScrollCanvas from "@/components/RevueltoScrollCanvas";
+import RevueltoExperience from "@/components/RevueltoExperience";
+
 const SpecsGrid = lazy(() => import("@/components/SpecsGrid"));
 const VelocityDashboard = lazy(() => import("@/components/VelocityDashboard"));
 
 export default function Home() {
   const containerRef = useRef<HTMLDivElement>(null);
+  const [canvasReady, setCanvasReady] = useState(false);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -31,7 +33,7 @@ export default function Home() {
 
   return (
     <main className="relative w-full bg-[var(--color-background)] text-[var(--color-foreground)]">
-      <Preloader />
+      <Preloader isAssetReady={canvasReady} />
       <Navbar />
 
       <div ref={containerRef} className="relative" style={{ height: "2700vh" }}>
@@ -42,9 +44,7 @@ export default function Home() {
             style={{ backgroundPositionY: gridBackgroundY }}
           />
 
-          <Suspense fallback={<SuspenseLoader />}>
-            <RevueltoScrollCanvas scrollYProgress={scrollYProgress} />
-          </Suspense>
+          <RevueltoScrollCanvas scrollYProgress={scrollYProgress} onReady={() => setCanvasReady(true)} />
 
           {/* Large Lambo Logo (Top Right below Navbar) */}
           <div className="absolute top-8 right-8 md:right-12 z-40 pointer-events-none">
@@ -55,9 +55,7 @@ export default function Home() {
             />
           </div>
 
-          <Suspense fallback={<SuspenseLoader />}>
-            <RevueltoExperience scrollYProgress={scrollYProgress} />
-          </Suspense>
+          <RevueltoExperience scrollYProgress={scrollYProgress} />
 
           <Suspense fallback={<SuspenseLoader />}>
             <VelocityDashboard scrollYProgress={scrollYProgress} />

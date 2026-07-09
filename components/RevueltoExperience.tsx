@@ -225,6 +225,14 @@ export default function RevueltoExperience({
                 const dt = time - lastTime;
                 lastTime = time;
                 
+                // Stop automatically if reached the bottom of the page
+                if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 10) {
+                  window.__autoScrollActive = false;
+                  // Trigger re-render to update the button UI
+                  setScrollValue((prev) => prev + 0.00001);
+                  return;
+                }
+
                 // Prevent massive jumps if the tab becomes inactive
                 if (dt < 100) {
                   window.scrollBy({ top: (speedPxPerSec * dt) / 1000 });

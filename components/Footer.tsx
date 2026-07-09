@@ -19,7 +19,7 @@ export default function Footer() {
         <div>
           <div className="flex items-center gap-3 mb-3">
             <img
-              src="/images/Lambo Logo-Photoroom.png"
+              src="https://ik.imagekit.io/shantanushinde99/images/images/Lambo%20Logo-Photoroom.png"
               alt="Lamborghini"
               className="w-8 h-8 object-contain"
             />

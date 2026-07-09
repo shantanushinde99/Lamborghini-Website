@@ -41,10 +41,17 @@ if (typeof window !== "undefined") {
 
 const PREMIUM_EASE = [0.16, 1, 0.3, 1] as const;
 
-export default function Preloader({ onComplete }: { onComplete?: () => void }) {
+export default function Preloader({
+  isAssetReady,
+  onComplete,
+}: {
+  isAssetReady: boolean;
+  onComplete?: () => void;
+}) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [progress, setProgress] = useState(0);
   const [isReady, setIsReady] = useState(false);
+  const progressObj = useRef({ value: 0 });
 
   // Lock scroll while preloader is active
   useEffect(() => {
@@ -57,28 +64,30 @@ export default function Preloader({ onComplete }: { onComplete?: () => void }) {
     };
   }, []);
 
-  useGSAP(
-    () => {
-      if (!containerRef.current) return;
+  // Sync animation progress with asset loading
+  useEffect(() => {
+    const target = isAssetReady ? 100 : 90;
+    const duration = isAssetReady ? 0.8 : 3.0;
 
-      // Loading progress
-      gsap.to(
-        { value: 0 },
-        {
-          value: 100,
-          duration: 3.5,
-          ease: "power2.out",
-          onUpdate: function () {
-            setProgress(Math.round(this.targets()[0].value));
-          },
-          onComplete: () => {
-            setIsReady(true);
-          },
+    const tween = gsap.to(progressObj.current, {
+      value: target,
+      duration: duration,
+      ease: "power2.out",
+      overwrite: "auto",
+      onUpdate: () => {
+        setProgress(Math.round(progressObj.current.value));
+      },
+      onComplete: () => {
+        if (target === 100) {
+          setIsReady(true);
         }
-      );
-    },
-    { scope: containerRef }
-  );
+      },
+    });
+
+    return () => {
+      tween.kill();
+    };
+  }, [isAssetReady]);
 
   const handleStart = () => {
     // Slide away
