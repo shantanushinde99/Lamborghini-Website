@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import { motion, useMotionValue, useSpring } from "framer-motion";
 import { revueltoData } from "@/data/carData";
+import Image from "next/image";
 
 const PREMIUM_EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -11,9 +12,9 @@ function MagneticLink({ label }: { label: string }) {
   const x = useMotionValue(0);
   const y = useMotionValue(0);
 
-  // Spring physics — gives that rubbery, physical pull-back feel
-  const springX = useSpring(x, { stiffness: 150, damping: 15, mass: 0.1 });
-  const springY = useSpring(y, { stiffness: 150, damping: 15, mass: 0.1 });
+  // Spring physics — UI UX Pro Max: Heavier, more physical pull for premium feel
+  const springX = useSpring(x, { stiffness: 120, damping: 20, mass: 0.5 });
+  const springY = useSpring(y, { stiffness: 120, damping: 20, mass: 0.5 });
 
   const handleMouseMove = (e: React.MouseEvent) => {
     if (!ref.current) return;
@@ -102,9 +103,11 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto flex justify-between items-center">
         {/* Logo */}
         <div className="flex items-center gap-3">
-          <img
-            src="https://ik.imagekit.io/shantanushinde99/Images/Lambo%20Logo-Photoroom.png"
+          <Image
+            src="https://ik.imagekit.io/shantanushinde99/Images/Lambo%20Logo-Photoroom%20(1).webp?updatedAt=1784104213526"
             alt="Lamborghini"
+            width={28}
+            height={28}
             className="w-7 h-7 object-contain"
           />
           <span
@@ -130,7 +133,7 @@ export default function Navbar() {
           <span
             className="text-[10px] tracking-[0.4em] uppercase"
             style={{
-              fontFamily: "var(--font-outfit)",
+              fontFamily: "var(--font-syncopate)",
               color: "var(--color-lambo-orange)",
             }}
           >

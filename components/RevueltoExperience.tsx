@@ -136,7 +136,7 @@ export default function RevueltoExperience({
       <audio ref={exhaustAudioRef} src="https://ik.imagekit.io/shantanushinde99/Images/Exhaust.mp3" preload="auto" />
 
       {/* Left side subtle background gradient for text contrast */}
-      <div className="absolute inset-y-0 left-0 w-1/2 bg-gradient-to-r from-[#FAFAFA]/90 via-[#FAFAFA]/40 to-transparent pointer-events-none -z-10" />
+      <div className="absolute inset-y-0 left-0 w-1/2 bg-gradient-to-r from-[#050505]/90 via-[#050505]/40 to-transparent pointer-events-none -z-10" />
 
       {/* Top-left: Phase Label */}
       <div className="absolute top-24 left-8 md:left-12">
@@ -167,8 +167,8 @@ export default function RevueltoExperience({
           >
             <motion.h1
               variants={childVariant}
-              className={`text-4xl md:text-6xl lg:text-7xl font-black uppercase tracking-tight leading-[0.95] ${isGlitching ? 'glitch' : ''}`}
-              style={{ fontFamily: "var(--font-outfit)", color: "#CC0000" }}
+              className={`text-4xl md:text-6xl lg:text-7xl font-bold tracking-tighter uppercase mb-2 leading-none ${isGlitching ? 'glitch' : ''}`}
+              style={{ fontFamily: "var(--font-syncopate)", color: "var(--color-lambo-orange)" }}
               data-text={activePhase.title}
             >
               {activePhase.title}
@@ -176,19 +176,16 @@ export default function RevueltoExperience({
 
             <motion.h2
               variants={childVariant}
-              className="text-lg md:text-xl tracking-[0.5em] uppercase mt-2"
-              style={{
-                fontFamily: "var(--font-outfit)",
-                color: "var(--color-lambo-orange)",
-              }}
+              className="text-lg md:text-xl tracking-[0.5em] uppercase mt-2 text-white/80 mb-6"
+              style={{ fontFamily: "var(--font-syncopate)" }}
             >
               {activePhase.subtitle}
             </motion.h2>
 
             <motion.p
               variants={childVariant}
-              className="text-sm md:text-base mt-4 leading-relaxed max-w-md font-semibold"
-              style={{ fontFamily: "var(--font-rajdhani)", color: "var(--color-foreground)" }}
+              className="text-sm md:text-base mt-4 leading-relaxed max-w-md font-semibold text-white/70"
+              style={{ fontFamily: "var(--font-rajdhani)" }}
             >
               {activePhase.description}
             </motion.p>

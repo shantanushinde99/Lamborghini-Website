@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Outfit, Rajdhani } from "next/font/google";
+import { Outfit, Rajdhani, Syncopate } from "next/font/google";
 import "./globals.css";
 import SmoothScroll from "@/components/SmoothScroll";
 
@@ -11,6 +11,12 @@ const outfit = Outfit({
 const rajdhani = Rajdhani({
   variable: "--font-rajdhani",
   weight: ["300", "400", "500", "600", "700"],
+  subsets: ["latin"],
+});
+
+const syncopate = Syncopate({
+  variable: "--font-syncopate",
+  weight: ["400", "700"],
   subsets: ["latin"],
 });
 
@@ -29,7 +35,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${outfit.variable} ${rajdhani.variable} antialiased`}
+      className={`${outfit.variable} ${rajdhani.variable} ${syncopate.variable} antialiased`}
     >
       <body className="bg-[var(--color-background)] text-[var(--color-foreground)] min-h-screen flex flex-col font-outfit">
         <CustomCursor />

@@ -77,7 +77,7 @@ export default function VelocityDashboard({
           className={`text-sm font-bold tracking-wider tabular-nums transition-colors duration-150 ${
             isRedline ? "text-[var(--color-lambo-orange)]" : "text-[var(--color-foreground)]"
           }`}
-          style={{ fontFamily: "var(--font-outfit)" }}
+          style={{ fontFamily: "var(--font-syncopate)" }}
         >
           {rpm.toLocaleString()}
         </div>

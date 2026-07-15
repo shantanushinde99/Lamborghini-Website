@@ -1,6 +1,7 @@
 "use client";
 
 import { revueltoData } from "@/data/carData";
+import Image from "next/image";
 
 export default function Footer() {
   return (
@@ -18,9 +19,11 @@ export default function Footer() {
         {/* Left */}
         <div>
           <div className="flex items-center gap-3 mb-3">
-            <img
-              src="https://ik.imagekit.io/shantanushinde99/Images/Lambo%20Logo-Photoroom.png"
+            <Image
+              src="https://ik.imagekit.io/shantanushinde99/Images/Lambo%20Logo-Photoroom%20(1).webp?updatedAt=1784104213526"
               alt="Lamborghini"
+              width={32}
+              height={32}
               className="w-8 h-8 object-contain"
             />
             <span

@@ -2,6 +2,7 @@
 
 import { useRef, useState } from "react";
 import { useScroll, useTransform, motion } from "framer-motion";
+import Image from "next/image";
 
 import Preloader from "@/components/Preloader";
 import Navbar from "@/components/Navbar";
@@ -48,9 +49,11 @@ export default function Home() {
 
           {/* Large Lambo Logo (Top Right below Navbar) */}
           <div className="absolute top-8 right-8 md:right-12 z-40 pointer-events-none">
-            <img
-              src="https://ik.imagekit.io/shantanushinde99/Images/Lambo%20Logo-Photoroom.png"
+            <Image
+              src="https://ik.imagekit.io/shantanushinde99/Images/Lambo%20Logo-Photoroom%20(1).webp?updatedAt=1784104213526"
               alt="Lamborghini Logo"
+              width={192}
+              height={192}
               className="w-48 h-48 object-contain opacity-100"
             />
           </div>
